@@ -8,18 +8,16 @@ app = Flask(__name__)
 
 
 def get_fact():
-
     response = requests.get("http://unkno.com")
-
     soup = BeautifulSoup(response.content, "html.parser")
     facts = soup.find_all("div", id="content")
-
-    return facts[0].getText()
+    return (facts[0].getText().strip())
 
 
 @app.route('/')
 def home():
-    return "FILL ME!"
+    url = pig_latinize(get_fact())[0]
+    return render_template('homepage.jinja2', url=url)
 
 
 if __name__ == "__main__":
